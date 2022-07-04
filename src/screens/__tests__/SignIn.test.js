@@ -1,71 +1,52 @@
-import React from "react";
-import { render, fireEvent, act } from "@testing-library/react-native";
-import SignIn from "../SignIn";
+import React from 'react';
+import {render, fireEvent, act} from '@testing-library/react-native';
+import SignIn from '../SignIn';
 
-// const flushMicrotasksQueue = () =>
-// new Promise((resolve) => setImmediate(resolve));
+it('Rnder default elements', () => {
+  const {getAllByText, getByPlaceholderText} = render(<SignIn />);
 
-it("renders default elements", () => {
-  const { getAllByText, getByPlaceholderText } = render(<SignIn />);
-
-  expect(getAllByText("Login").length).toBe(2);
-  getByPlaceholderText("Username");
-  getByPlaceholderText("Password");
+  expect(getAllByText('Login').length).toBe(2);
+  getByPlaceholderText('Username');
+  getByPlaceholderText('Password');
 });
 
-it("shows invalid input messages", () => {
-  const { getByTestId, getByText } = render(<SignIn />);
+it('checks invalid input messages', () => {
+  const {getByTestId, getByText} = render(<SignIn />);
 
-  fireEvent.press(getByTestId("SignIn.Button"));
+  fireEvent.press(getByTestId('SignIn.Button'));
 
-  getByText("Invalid username.");
-  getByText("Invalid password.");
+  getByText('Invalid username.');
+  getByText('Invalid password.');
 });
 
-it("shows invalid user name error message", () => {
-  const { getByTestId, getByText, queryAllByText } = render(<SignIn />);
+it('will show invalid user name error message', () => {
+  const {getByTestId, getByText, queryAllByText} = render(<SignIn />);
 
-  fireEvent.changeText(getByTestId("SignIn.passwordInput"), "123_sample");
+  fireEvent.changeText(getByTestId('SignIn.passwordInput'), '123_sample');
 
-  fireEvent.press(getByTestId("SignIn.Button"));
+  fireEvent.press(getByTestId('SignIn.Button'));
 
-  getByText("Invalid username.");
-  expect(queryAllByText("Invalid password.").length).toBe(0);
+  getByText('Invalid username.');
+  expect(queryAllByText('Invalid password.').length).toBe(0);
 
-  fireEvent.changeText(getByTestId("SignIn.usernameInput"), "invalid input");
+  fireEvent.changeText(getByTestId('SignIn.usernameInput'), 'invalid input');
 
-  getByText("Invalid username.");
-  expect(queryAllByText("Invalid password.").length).toBe(0);
+  getByText('Invalid username.');
+  expect(queryAllByText('Invalid password.').length).toBe(0);
 });
 
-it("shows invalid password error message", () => {
-  const { getByTestId, getByText, queryAllByText } = render(<SignIn />);
+it('shows invalid password error message', () => {
+  const {getByTestId, getByText, queryAllByText} = render(<SignIn />);
 
-  fireEvent.changeText(getByTestId("SignIn.usernameInput"), "sample123");
+  fireEvent.changeText(getByTestId('SignIn.usernameInput'), 'sample123');
 
-  fireEvent.press(getByTestId("SignIn.Button"));
+  fireEvent.press(getByTestId('SignIn.Button'));
 
-  getByText("Invalid password.");
-  expect(queryAllByText("Invalid username.").length).toBe(0);
+  getByText('Invalid password.');
+  expect(queryAllByText('Invalid username.').length).toBe(0);
 
-  fireEvent.changeText(getByTestId("SignIn.passwordInput"), "invalid input");
+  fireEvent.changeText(getByTestId('SignIn.passwordInput'), 'invalid input');
 
-  getByText("Invalid password.");
-  expect(queryAllByText("Invalid username.").length).toBe(0);
+  getByText('Invalid password.');
+  expect(queryAllByText('Invalid username.').length).toBe(0);
 });
-
-// it("handles valid input submission", async () => {
-//   fetch.mockResponseOnce(JSON.stringify({ passes: true }));
-
-//   const pushMock = jest.fn();
-//   const { getByTestId } = render(<SignIn navigation={{ push: pushMock }} />);
-
-//   fireEvent.changeText(getByTestId("SignIn.usernameInput"), "sample123");
-//   fireEvent.changeText(getByTestId("SignIn.passwordInput"), "123_sample");
-//   fireEvent.press(getByTestId("SignIn.Button"));
-
-//   expect(fetch.mock.calls).toMatchSnapshot();
-//   await act(flushMicrotasksQueue);
-
-//   expect(pushMock).toBeCalledWith("App");
-// });

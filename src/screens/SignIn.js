@@ -1,35 +1,35 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, KeyboardAvoidingView } from "react-native";
-import { Input, Button, ErrorText } from "../components/Form";
+import React, {useState} from 'react';
+import {StyleSheet, Text, KeyboardAvoidingView} from 'react-native';
+import {Input, Button, ErrorText} from '../components/Form';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    justifyContent: 'center',
     paddingHorizontal: 40,
   },
   headerText: {
-    color: "#353031",
-    fontWeight: "bold",
+    color: '#353031',
+    fontWeight: 'bold',
     fontSize: 34,
     marginBottom: 10,
   },
 });
 
-const useLoginFormState = ({ navigation }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+const useLoginFormState = ({navigation}) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [submit, setSubmit] = useState(false);
 
   let isUsernameValid = false;
   let isPasswordValid = false;
 
-  if (username === "sample123") {
+  if (username === 'sample123') {
     isUsernameValid = true;
   }
 
-  if (password === "123_sample") {
+  if (password === '123_sample') {
     isPasswordValid = true;
   }
 
@@ -50,19 +50,19 @@ const useLoginFormState = ({ navigation }) => {
         setSubmit(true);
 
         if (isUsernameValid && isPasswordValid) {
-          fetch("https://jsonplaceholder.typicode.com/users", {
-            method: "POST",
+          fetch('https://jsonplaceholder.typicode.com/users', {
+            method: 'POST',
             body: JSON.stringify({
               username,
               password,
             }),
           })
-            .then((response) => response.json())
+            .then(response => response.json())
             .then(() => {
-              navigation.push("App");
+              navigation.push('App');
             })
-            .catch((error) => {
-              console.log("error", error);
+            .catch(error => {
+              console.log('error', error);
             });
         }
       },
@@ -70,32 +70,30 @@ const useLoginFormState = ({ navigation }) => {
   };
 };
 
-export default ({ navigation }) => {
-  const { username, password, submit } = useLoginFormState({ navigation });
+export default ({navigation}) => {
+  const {username, password, submit} = useLoginFormState({navigation});
 
   let usernameErrorMsg;
   let passwordErrorMsg;
 
   if (submit.value && !username.valid) {
-    usernameErrorMsg = "Invalid username.";
+    usernameErrorMsg = 'Invalid username.';
   }
 
   if (submit.value && !password.valid) {
-    passwordErrorMsg = "Invalid password.";
+    passwordErrorMsg = 'Invalid password.';
   }
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="position">
       <Text style={styles.headerText}>Login</Text>
       <Input
-        //label="Username"
         placeholder="Username"
         onChangeText={username.set}
         error={usernameErrorMsg}
         testID="SignIn.usernameInput"
       />
       <Input
-        //label="Password"
         placeholder="Password"
         secureTextEntry
         onChangeText={password.set}
