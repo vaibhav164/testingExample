@@ -1,38 +1,45 @@
 import React from 'react';
-import renderer, { create, act } from 'react-test-renderer';
+import renderer, {create, act} from 'react-test-renderer';
 import Intro from '../src/utils/Intro';
 import MyScreen from '../src/utils/MyScreen';
 
-const tree = create(<MyScreen />)
-
-// Snapshot Test
-//import { Flatlist, Text } from 'react-native';
-
-test('renders correctly', () => {
-    const tree = renderer.create(<Intro />).toJSON();
-    expect(tree).toMatchSnapshot();
+const sum = (a, b) => {
+  return a + b;
+};
+const sub = (a, b) => {
+  return a - b;
+};
+const div = (a, b) => {
+  return a / b;
+};
+const multi = (a, b) => {
+  return a * b;
+};
+test('substracts 5 - 2 to equal 3', () => {
+  expect(sub(5, 2)).toBe(3);
 });
 
-// Snapshot Test for Flatlist
+test('Multiplies 1 * 2 to equal 2', () => {
+  expect(multi(1, 2)).toBe(2);
+});
 
-// it('renders the Flatlist component', () => {
-//     const tree = renderer.create(
-//         <Flatlist
-//             data={['Item1', 'Item2', 'Item3']}
-//             keyExtractor={item => item}
-//             renderItem={({ item }) => <Text>{item}</Text>}
-//         />
-//     ).toJSON();
-//     expect(tree).toMatchSnapshot();
-// });
+test('adds 1 + 2 to equal 3', () => {
+  expect(sum(1, 2)).toBe(3);
+});
+
+test('adds 10 / 2 to equal 5', () => {
+  expect(sum(10, 2)).toBe(5);
+});
+
+const tree = create(<MyScreen />);
+test('renders correctly', () => {
+  const tree = renderer.create(<Intro />).toJSON();
+  expect(tree).toMatchSnapshot();
+});
 
 test('button pressed', () => {
-    // press the button
-    const button = tree.root.findByProps({ testID: "myButton" }).props;
-    act(() => button.onPress());
-
-    // expect text to equal "button pressed"
-    const text = tree.root.findByProps({ testID: "myText" }).props;
-    expect(text.children).toEqual("button pressed");
-
+  const button = tree.root.findByProps({testID: 'myButton'}).props;
+  act(() => button.onPress());
+  const text = tree.root.findByProps({testID: 'myText'}).props;
+  expect(text.children).toEqual('button pressed');
 });
